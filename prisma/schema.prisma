@@ -1,13 +1,67 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Sector {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  capPct    Float     @default(50)
+  companies Company[]
+}
+
+model Company {
+  ticker       String           @id
+  name         String
+  sector       Sector?          @relation(fields: [sectorId], references: [id])
+  sectorId     String?
+  capPct       Float            @default(25)
+  transactions Transaction[]
+  fundamentals Fundamental[]
+  scores       CriterionScore[]
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  company   Company  @relation(fields: [ticker], references: [ticker])
+  ticker    String
+  qty       Float
+  price     Float
+  date      DateTime
+  createdAt DateTime @default(now())
+}
+
+model Fundamental {
+  id        String   @id @default(cuid())
+  ticker    String
+  quarter   String // "2026Q2"
+  key       String // "revenueGrowth", "netMargin", ...
+  value     Float
+  source    String // "fmp" | "manual"
+  updatedAt DateTime @updatedAt
+  company   Company  @relation(fields: [ticker], references: [ticker])
+
+  @@unique([ticker, quarter, key])
+}
+
+model CriterionScore {
+  id       String  @id @default(cuid())
+  ticker   String
+  quarter  String
+  group    String // "fundamental" | "moat" | "technical" | "diversification"
+  key      String
+  rawValue Float
+  manual   Boolean @default(false)
+  company  Company @relation(fields: [ticker], references: [ticker])
+
+  @@unique([ticker, quarter, group, key])
+}
+
+model Setting {
+  key   String @id
+  value String // JSON string
 }
