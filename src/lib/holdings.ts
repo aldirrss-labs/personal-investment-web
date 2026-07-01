@@ -8,7 +8,7 @@ export function positionsFromTx(txs: Tx[]): Position[] {
     cur.costBasis += t.qty * t.price;
     map.set(t.ticker, cur);
   }
-  return [...map.entries()].map(([ticker, v]) => ({
+  return Array.from(map.entries()).map(([ticker, v]) => ({
     ticker,
     qty: v.qty,
     costBasis: v.costBasis,
