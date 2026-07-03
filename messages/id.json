@@ -2,7 +2,19 @@
   "app": {
     "title": "Personal Investment SPK",
     "dashboardSubtitle": "Dashboard portfolio.",
-    "viewRecommendation": "Lihat Rekomendasi DCA"
+    "viewRecommendation": "Lihat Rekomendasi DCA",
+    "viewReview": "Review Quartal"
+  },
+  "review": {
+    "title": "Review Quartal",
+    "run": "Jalankan Review Quartal",
+    "running": "Menjalankan...",
+    "quarter": "Quartal",
+    "ticker": "Ticker",
+    "score": "Skor",
+    "allocation": "Alokasi %",
+    "aiUnavailable": "Sebagian/semua analisa AI tidak tersedia (skor pakai nilai manual/netral)",
+    "noSnapshot": "Belum ada snapshot. Jalankan review."
   },
   "recommendation": {
     "title": "Rekomendasi Alokasi DCA",
@@ -15,5 +27,16 @@
     "label": "Bahasa",
     "id": "Bahasa Indonesia",
     "en": "Bahasa Inggris"
+  },
+  "stock": {
+    "title": "Kartu Saham",
+    "compositeScore": "Skor Komposit",
+    "decision": "Keputusan",
+    "reason": "Alasan",
+    "risks": "Risiko Utama",
+    "confidence": "Keyakinan",
+    "moat": "Moat",
+    "aiUnavailable": "Analisa AI belum tersedia untuk quartal ini",
+    "criteria": "Kriteria"
   }
 }

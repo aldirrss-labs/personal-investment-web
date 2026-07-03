@@ -65,3 +65,38 @@ model Setting {
   key   String @id
   value String // JSON string
 }
+
+model QuarterlySnapshot {
+  id         String          @id @default(cuid())
+  quarter    String          @unique
+  activeCaps Json
+  createdAt  DateTime        @default(now())
+  entries    SnapshotEntry[]
+}
+
+model SnapshotEntry {
+  id             String            @id @default(cuid())
+  snapshot       QuarterlySnapshot @relation(fields: [snapshotId], references: [id], onDelete: Cascade)
+  snapshotId     String
+  ticker         String
+  compositeScore Float
+  allocationPct  Float
+  breakdown      Json
+}
+
+model AiAnalysis {
+  id         String   @id @default(cuid())
+  ticker     String
+  quarter    String
+  criteria   Json
+  decision   String
+  reason     String
+  keyRisks   Json
+  confidence Float
+  provider   String
+  model      String
+  language   String
+  createdAt  DateTime @default(now())
+
+  @@unique([ticker, quarter])
+}
