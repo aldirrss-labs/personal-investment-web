@@ -59,6 +59,18 @@ Referensi desain: [docs/superpowers/specs/2026-07-02-personal-investment-spk-des
 
 ---
 
+## Cross-cutting — Internationalization (i18n)
+**Sudah dikerjakan setelah Fase 1** (mumpung UI masih kecil).
+
+- **Bahasa UI**: `next-intl` (cookie-based, tanpa routing per-locale), kamus `messages/id.json` &
+  `messages/en.json`, default **Bahasa Indonesia**, `LocaleSwitcher` EN/ID.
+- **Bahasa reasoning AI**: setting terpisah `ai_language = follow_ui | en | id` (default `follow_ui`),
+  disimpan di tabel `Setting`. Fungsi murni `resolveAiLanguage()` + `aiLanguageInstruction()` di
+  `src/lib/language.ts` (dipakai saat membangun prompt AI di Fase 2).
+- Test: parity kamus (key en/id identik) + unit test resolver bahasa AI.
+
+---
+
 ## Di Luar Scope (untuk sekarang — YAGNI)
 - Sync otomatis Binance API (tokenized stocks belum tentu ada di endpoint publik).
 - FX USD/IDR sebagai faktor timing alokasi.

@@ -1,0 +1,19 @@
+{
+  "app": {
+    "title": "Personal Investment SPK",
+    "dashboardSubtitle": "Dashboard portfolio.",
+    "viewRecommendation": "Lihat Rekomendasi DCA"
+  },
+  "recommendation": {
+    "title": "Rekomendasi Alokasi DCA",
+    "activeCaps": "Cap aktif",
+    "ticker": "Ticker",
+    "score": "Skor",
+    "allocation": "Alokasi %"
+  },
+  "language": {
+    "label": "Bahasa",
+    "id": "Bahasa Indonesia",
+    "en": "Bahasa Inggris"
+  }
+}
