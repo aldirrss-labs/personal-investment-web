@@ -1,0 +1,19 @@
+{
+  "app": {
+    "title": "Personal Investment DSS",
+    "dashboardSubtitle": "Portfolio dashboard.",
+    "viewRecommendation": "View DCA Recommendation"
+  },
+  "recommendation": {
+    "title": "DCA Allocation Recommendation",
+    "activeCaps": "Active caps",
+    "ticker": "Ticker",
+    "score": "Score",
+    "allocation": "Allocation %"
+  },
+  "language": {
+    "label": "Language",
+    "id": "Indonesian",
+    "en": "English"
+  }
+}

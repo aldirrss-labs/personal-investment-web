@@ -2,6 +2,7 @@ import { prisma } from "./db";
 import type { Tx } from "./types";
 import type { GroupWeights } from "./scoring";
 import type { Caps } from "./allocation";
+import type { AiLanguageSetting } from "./language";
 
 export async function getTransactions(): Promise<Tx[]> {
   const rows = await prisma.transaction.findMany();
@@ -29,6 +30,12 @@ export async function getCaps(): Promise<Caps> {
   const s = await prisma.setting.findUnique({ where: { key: "caps" } });
   if (s) return JSON.parse(s.value);
   return { perStock: 25, perSector: {} };
+}
+
+export async function getAiLanguage(): Promise<AiLanguageSetting> {
+  const s = await prisma.setting.findUnique({ where: { key: "ai_language" } });
+  const v = s?.value;
+  return v === "en" || v === "id" || v === "follow_ui" ? v : "follow_ui";
 }
 
 export async function getSectors(): Promise<Record<string, string>> {
