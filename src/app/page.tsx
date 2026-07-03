@@ -10,8 +10,11 @@ export default async function Home() {
         <LocaleSwitcher />
       </div>
       <p className="text-gray-500">{t("dashboardSubtitle")}</p>
-      <a className="text-blue-600 underline" href="/recommendation">
+      <a className="block text-blue-600 underline" href="/recommendation">
         {t("viewRecommendation")} &rarr;
+      </a>
+      <a className="block text-blue-600 underline" href="/review">
+        {t("viewReview")} &rarr;
       </a>
     </main>
   );

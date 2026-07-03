@@ -2,7 +2,19 @@
   "app": {
     "title": "Personal Investment DSS",
     "dashboardSubtitle": "Portfolio dashboard.",
-    "viewRecommendation": "View DCA Recommendation"
+    "viewRecommendation": "View DCA Recommendation",
+    "viewReview": "Quarterly Review"
+  },
+  "review": {
+    "title": "Quarterly Review",
+    "run": "Run Quarterly Review",
+    "running": "Running...",
+    "quarter": "Quarter",
+    "ticker": "Ticker",
+    "score": "Score",
+    "allocation": "Allocation %",
+    "aiUnavailable": "Some/all AI analysis unavailable (scores use manual/neutral values)",
+    "noSnapshot": "No snapshot yet. Run a review."
   },
   "recommendation": {
     "title": "DCA Allocation Recommendation",
