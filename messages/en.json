@@ -15,5 +15,16 @@
     "label": "Language",
     "id": "Indonesian",
     "en": "English"
+  },
+  "stock": {
+    "title": "Stock Card",
+    "compositeScore": "Composite Score",
+    "decision": "Decision",
+    "reason": "Reason",
+    "risks": "Key Risks",
+    "confidence": "Confidence",
+    "moat": "Moat",
+    "aiUnavailable": "No AI analysis available for this quarter yet",
+    "criteria": "Criteria"
   }
 }

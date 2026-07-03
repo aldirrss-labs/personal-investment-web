@@ -15,5 +15,16 @@
     "label": "Bahasa",
     "id": "Bahasa Indonesia",
     "en": "Bahasa Inggris"
+  },
+  "stock": {
+    "title": "Kartu Saham",
+    "compositeScore": "Skor Komposit",
+    "decision": "Keputusan",
+    "reason": "Alasan",
+    "risks": "Risiko Utama",
+    "confidence": "Keyakinan",
+    "moat": "Moat",
+    "aiUnavailable": "Analisa AI belum tersedia untuk quartal ini",
+    "criteria": "Kriteria"
   }
 }
