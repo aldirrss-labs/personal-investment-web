@@ -10,6 +10,8 @@
     "stocks": "Stocks",
     "config": "Config",
     "dashboard": "Dashboard",
+    "portfolio": "Portfolio",
+    "decisions": "Allocation & Decisions",
     "recommendation": "Recommendation",
     "review": "Review",
     "compare": "Compare",
