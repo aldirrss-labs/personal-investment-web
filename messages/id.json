@@ -28,7 +28,8 @@
     "avgCost": "Avg Cost",
     "price": "Harga",
     "value": "Nilai",
-    "noPrices": "Belum ada harga. Klik Refresh harga."
+    "noPrices": "Belum ada harga. Klik Refresh harga.",
+    "viewPortfolio": "Lihat Portfolio"
   },
   "compare": {
     "title": "Perbandingan Antar-Quartal",
@@ -39,6 +40,22 @@
     "decision": "Keputusan",
     "moat": "Moat",
     "trend": "Tren Skor Komposit"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "holdings": "Kepemilikan",
+    "logDca": "Log DCA",
+    "history": "Riwayat Transaksi",
+    "budgetUsd": "Total Budget (USD)",
+    "purchaseDatetime": "Tanggal & Jam Pembelian (WIB)",
+    "preview": "Preview Alokasi",
+    "allocationPct": "Alokasi %",
+    "suggestedUsd": "USD Sugesti",
+    "confirmSave": "Konfirmasi & Simpan",
+    "saved": "Transaksi tersimpan",
+    "datetimeWib": "Tanggal & Jam (WIB)",
+    "delete": "Hapus",
+    "confirmDelete": "Hapus transaksi ini?"
   },
   "settings": {
     "title": "Pengaturan",
