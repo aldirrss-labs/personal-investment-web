@@ -18,7 +18,7 @@ export type AiAnalysis = {
 
 export type AiInput = {
   ticker: string;
-  fundamentals: FundamentalSet;
+  fundamentals?: FundamentalSet;
   positionPct?: number;
   language: ResolvedLanguage;
 };
