@@ -16,6 +16,9 @@ export default async function Home() {
       <a className="block text-blue-600 underline" href="/review">
         {t("viewReview")} &rarr;
       </a>
+      <a className="block text-blue-600 underline" href="/settings">
+        {t("viewSettings")} &rarr;
+      </a>
     </main>
   );
 }

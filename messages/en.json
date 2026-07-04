@@ -3,7 +3,29 @@
     "title": "Personal Investment DSS",
     "dashboardSubtitle": "Portfolio dashboard.",
     "viewRecommendation": "View DCA Recommendation",
-    "viewReview": "Quarterly Review"
+    "viewReview": "Quarterly Review",
+    "viewSettings": "Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "weights": "SAW Weights",
+    "fundamental": "Fundamental",
+    "moat": "Moat",
+    "technical": "Technical",
+    "diversification": "Diversification",
+    "perStockCap": "Per-stock cap (%)",
+    "sectorCaps": "Per-sector caps (%)",
+    "sectors": "Sector per stock",
+    "fetchOne": "Fetch from FMP",
+    "fetchAll": "Fetch all sectors",
+    "ai": "AI",
+    "language": "AI language",
+    "providerOrder": "Provider order",
+    "model": "Model",
+    "refreshModels": "Refresh model list",
+    "save": "Save",
+    "saved": "Saved",
+    "fetchFailed": "Failed to fetch from FMP"
   },
   "review": {
     "title": "Quarterly Review",
