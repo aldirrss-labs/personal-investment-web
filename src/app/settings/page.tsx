@@ -20,7 +20,7 @@ export default async function SettingsPage() {
   const companies = await getCompaniesWithSector();
 
   return (
-    <main className="p-8 space-y-4">
+    <div className="space-y-4">
       <h1 className="text-2xl font-bold">{t("title")}</h1>
       <SettingsForm
         initialWeights={{ ...DEFAULT_WEIGHTS, ...weights }}
@@ -31,6 +31,6 @@ export default async function SettingsPage() {
         initialOrder={order}
         companies={companies}
       />
-    </main>
+    </div>
   );
 }

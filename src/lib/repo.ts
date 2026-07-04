@@ -207,3 +207,20 @@ export async function listQuarters(): Promise<string[]> {
 export async function getAiAnalysis(ticker: string, quarter: string) {
   return prisma.aiAnalysis.findUnique({ where: { ticker_quarter: { ticker, quarter } } });
 }
+
+export async function savePrices(prices: Record<string, number>): Promise<void> {
+  for (const [ticker, price] of Object.entries(prices)) {
+    await prisma.priceCache.upsert({
+      where: { ticker },
+      update: { price },
+      create: { ticker, price },
+    });
+  }
+}
+
+export async function getCachedPrices(tickers: string[]): Promise<Record<string, number>> {
+  const rows = await prisma.priceCache.findMany({ where: { ticker: { in: tickers } } });
+  const out: Record<string, number> = {};
+  for (const r of rows) out[r.ticker] = r.price;
+  return out;
+}

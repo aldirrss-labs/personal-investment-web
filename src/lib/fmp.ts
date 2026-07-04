@@ -52,6 +52,27 @@ export async function fetchProfile(
   return { sector: p?.sector ?? "", industry: p?.industry ?? "" };
 }
 
+export async function fetchQuotes(
+  tickers: string[],
+  fetchImpl: typeof fetch = fetch,
+  apiKey?: string,
+): Promise<Record<string, number>> {
+  const key = apiKey ?? getFmpKeys()[0] ?? "";
+  const out: Record<string, number> = {};
+  for (const t of tickers) {
+    try {
+      const res = await fetchImpl(`${BASE}/quote?symbol=${t}&apikey=${key}`);
+      if (!res.ok) continue;
+      const json = (await res.json()) as any;
+      const p = Array.isArray(json) ? json[0] : json;
+      if (typeof p?.price === "number") out[t] = p.price;
+    } catch {
+      /* lewati */
+    }
+  }
+  return out;
+}
+
 export async function fetchFundamentals(
   ticker: string,
   fetchImpl: typeof fetch = fetch,
