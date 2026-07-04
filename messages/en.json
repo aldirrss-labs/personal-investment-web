@@ -12,6 +12,7 @@
     "dashboard": "Dashboard",
     "recommendation": "Recommendation",
     "review": "Review",
+    "compare": "Compare",
     "settings": "Settings"
   },
   "dashboard": {
@@ -26,6 +27,16 @@
     "price": "Price",
     "value": "Value",
     "noPrices": "No prices yet. Click Refresh prices."
+  },
+  "compare": {
+    "title": "Quarter-over-Quarter Comparison",
+    "insufficientData": "Need at least 2 quarters to compare.",
+    "ticker": "Ticker",
+    "score": "Score",
+    "allocation": "Allocation %",
+    "decision": "Decision",
+    "moat": "Moat",
+    "trend": "Composite Score Trend"
   },
   "settings": {
     "title": "Settings",

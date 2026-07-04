@@ -12,6 +12,7 @@
     "dashboard": "Dashboard",
     "recommendation": "Rekomendasi",
     "review": "Review",
+    "compare": "Perbandingan",
     "settings": "Pengaturan"
   },
   "dashboard": {
@@ -26,6 +27,16 @@
     "price": "Harga",
     "value": "Nilai",
     "noPrices": "Belum ada harga. Klik Refresh harga."
+  },
+  "compare": {
+    "title": "Perbandingan Antar-Quartal",
+    "insufficientData": "Perlu minimal 2 quartal untuk membandingkan.",
+    "ticker": "Ticker",
+    "score": "Skor",
+    "allocation": "Alokasi %",
+    "decision": "Keputusan",
+    "moat": "Moat",
+    "trend": "Tren Skor Komposit"
   },
   "settings": {
     "title": "Pengaturan",

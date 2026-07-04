@@ -224,3 +224,32 @@ export async function getCachedPrices(tickers: string[]): Promise<Record<string,
   for (const r of rows) out[r.ticker] = r.price;
   return out;
 }
+
+export async function getAllSnapshotsWithEntries(): Promise<
+  Array<{
+    quarter: string;
+    entries: Array<{ ticker: string; compositeScore: number; allocationPct: number }>;
+  }>
+> {
+  const snaps = await prisma.quarterlySnapshot.findMany({
+    orderBy: { quarter: "asc" },
+    include: { entries: true },
+  });
+  return snaps.map((s) => ({
+    quarter: s.quarter,
+    entries: s.entries.map((e) => ({
+      ticker: e.ticker,
+      compositeScore: e.compositeScore,
+      allocationPct: e.allocationPct,
+    })),
+  }));
+}
+
+export async function getAllAiAnalyses(): Promise<
+  Array<{ ticker: string; quarter: string; decision: string; criteria: unknown }>
+> {
+  const rows = await prisma.aiAnalysis.findMany({
+    select: { ticker: true, quarter: true, decision: true, criteria: true },
+  });
+  return rows;
+}
