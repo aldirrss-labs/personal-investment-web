@@ -4,6 +4,12 @@ import type { GroupWeights } from "./scoring";
 import type { Caps } from "./allocation";
 import type { AiLanguageSetting } from "./language";
 import type { AiAnalysis } from "./ai/types";
+import type { Weights } from "./settings";
+
+async function putSetting(key: string, value: unknown): Promise<void> {
+  const v = JSON.stringify(value);
+  await prisma.setting.upsert({ where: { key }, update: { value: v }, create: { key, value: v } });
+}
 
 export async function getTransactions(): Promise<Tx[]> {
   const rows = await prisma.transaction.findMany();
@@ -35,8 +41,72 @@ export async function getCaps(): Promise<Caps> {
 
 export async function getAiLanguage(): Promise<AiLanguageSetting> {
   const s = await prisma.setting.findUnique({ where: { key: "ai_language" } });
-  const v = s?.value;
+  if (!s) return "follow_ui";
+  let v: unknown;
+  try {
+    v = JSON.parse(s.value);
+  } catch {
+    v = s.value;
+  }
   return v === "en" || v === "id" || v === "follow_ui" ? v : "follow_ui";
+}
+
+export async function saveGroupWeights(w: Weights): Promise<void> {
+  await putSetting("saw_weights", w);
+}
+
+export async function saveCaps(caps: {
+  perStock: number;
+  perSector: Record<string, number>;
+}): Promise<void> {
+  await putSetting("caps", caps);
+}
+
+export async function saveAiLanguage(v: "follow_ui" | "en" | "id"): Promise<void> {
+  await putSetting("ai_language", v);
+}
+
+export async function saveAiModels(m: {
+  gemini?: string;
+  groq?: string;
+  openrouter?: string;
+}): Promise<void> {
+  await putSetting("ai_models", m);
+}
+
+export async function saveProviderOrder(order: string[]): Promise<void> {
+  await putSetting("ai_provider_order", order);
+}
+
+export async function getAiModels(): Promise<{
+  gemini?: string;
+  groq?: string;
+  openrouter?: string;
+}> {
+  const s = await prisma.setting.findUnique({ where: { key: "ai_models" } });
+  return s ? JSON.parse(s.value) : {};
+}
+
+export async function getProviderOrder(): Promise<string[] | null> {
+  const s = await prisma.setting.findUnique({ where: { key: "ai_provider_order" } });
+  return s ? JSON.parse(s.value) : null;
+}
+
+export async function assignSector(ticker: string, sectorName: string): Promise<void> {
+  const name = sectorName.trim();
+  if (!name) return;
+  const sector = await prisma.sector.upsert({ where: { name }, update: {}, create: { name } });
+  await prisma.company.update({ where: { ticker }, data: { sectorId: sector.id } });
+}
+
+export async function getCompaniesWithSector(): Promise<
+  Array<{ ticker: string; sector: string | null }>
+> {
+  const rows = await prisma.company.findMany({
+    include: { sector: true },
+    orderBy: { ticker: "asc" },
+  });
+  return rows.map((r) => ({ ticker: r.ticker, sector: r.sector?.name ?? null }));
 }
 
 export async function getSectors(): Promise<Record<string, string>> {
