@@ -6,14 +6,30 @@ export type FundamentalSet = {
   pe: number;
 };
 
-export function mapProfileMetrics(raw: any): FundamentalSet {
+const BASE = "https://financialmodelingprep.com/stable";
+
+/**
+ * Gabungkan respons 3 endpoint stable FMP menjadi FundamentalSet.
+ * Rasio FMP dalam bentuk desimal (0.25 = 25%) → dikali 100 untuk persen.
+ */
+export function mapFundamentals(growth: any, ratios: any, metrics: any): FundamentalSet {
   return {
-    revenueGrowth: (raw.revenueGrowth ?? 0) * 100,
-    netMargin: (raw.netProfitMargin ?? 0) * 100,
-    roe: (raw.roe ?? 0) * 100,
-    debtToEquity: raw.debtToEquity ?? 0,
-    pe: raw.peRatio ?? 0,
+    revenueGrowth: (growth?.revenueGrowth ?? 0) * 100,
+    netMargin: (ratios?.netProfitMarginTTM ?? 0) * 100,
+    roe: (metrics?.returnOnEquityTTM ?? 0) * 100,
+    debtToEquity: ratios?.debtToEquityRatioTTM ?? 0,
+    pe: ratios?.priceToEarningsRatioTTM ?? 0,
   };
+}
+
+function first(json: unknown): any {
+  return Array.isArray(json) ? json[0] : json;
+}
+
+async function getJson(url: string, fetchImpl: typeof fetch): Promise<unknown> {
+  const res = await fetchImpl(url);
+  if (!res.ok) throw new Error(`FMP ${res.status}`);
+  return res.json();
 }
 
 export async function fetchFundamentals(
@@ -21,10 +37,11 @@ export async function fetchFundamentals(
   fetchImpl: typeof fetch = fetch,
 ): Promise<FundamentalSet> {
   const key = process.env.FMP_API_KEY ?? "";
-  const url = `https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}?apikey=${key}`;
-  const res = await fetchImpl(url);
-  if (!res.ok) throw new Error(`FMP ${res.status}`);
-  const json = (await res.json()) as any[];
-  if (!Array.isArray(json) || json.length === 0) throw new Error("FMP empty");
-  return mapProfileMetrics(json[0]);
+  const q = `symbol=${ticker}&apikey=${key}`;
+  const [growth, ratios, metrics] = await Promise.all([
+    getJson(`${BASE}/financial-growth?${q}&limit=1`, fetchImpl),
+    getJson(`${BASE}/ratios-ttm?${q}`, fetchImpl),
+    getJson(`${BASE}/key-metrics-ttm?${q}`, fetchImpl),
+  ]);
+  return mapFundamentals(first(growth), first(ratios), first(metrics));
 }
