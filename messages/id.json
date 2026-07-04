@@ -3,7 +3,29 @@
     "title": "Personal Investment SPK",
     "dashboardSubtitle": "Dashboard portfolio.",
     "viewRecommendation": "Lihat Rekomendasi DCA",
-    "viewReview": "Review Quartal"
+    "viewReview": "Review Quartal",
+    "viewSettings": "Pengaturan"
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "weights": "Bobot SAW",
+    "fundamental": "Fundamental",
+    "moat": "Moat",
+    "technical": "Teknis",
+    "diversification": "Diversifikasi",
+    "perStockCap": "Cap per Saham (%)",
+    "sectorCaps": "Cap per Sektor (%)",
+    "sectors": "Sektor per Saham",
+    "fetchOne": "Ambil dari FMP",
+    "fetchAll": "Fetch semua sektor",
+    "ai": "AI",
+    "language": "Bahasa AI",
+    "providerOrder": "Urutan Provider",
+    "model": "Model",
+    "refreshModels": "Refresh daftar model",
+    "save": "Simpan",
+    "saved": "Tersimpan",
+    "fetchFailed": "Gagal mengambil dari FMP"
   },
   "review": {
     "title": "Review Quartal",
