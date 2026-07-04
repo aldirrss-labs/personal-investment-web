@@ -4,6 +4,7 @@ import { buildComparisonRows, topTickersByLatestAllocation, chartSeries } from "
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import ComparisonLineChart from "@/components/ComparisonLineChart";
+import DecisionTabs from "@/components/DecisionTabs";
 
 export default async function ComparePage() {
   const t = await getTranslations("compare");
@@ -16,6 +17,7 @@ export default async function ComparePage() {
   if (quarterCount < 2) {
     return (
       <div className="space-y-4">
+        <DecisionTabs />
         <h1 className="text-2xl font-bold">{t("title")}</h1>
         <p className="text-muted-foreground">{t("insufficientData")}</p>
       </div>
@@ -30,6 +32,7 @@ export default async function ComparePage() {
 
   return (
     <div className="space-y-6">
+      <DecisionTabs />
       <h1 className="text-2xl font-bold">{t("title")}</h1>
 
       {quarterCount >= 3 && (

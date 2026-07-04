@@ -10,6 +10,8 @@
     "stocks": "Stocks",
     "config": "Config",
     "dashboard": "Dashboard",
+    "portfolio": "Portfolio",
+    "decisions": "Allocation & Decisions",
     "recommendation": "Recommendation",
     "review": "Review",
     "compare": "Compare",
@@ -26,7 +28,8 @@
     "avgCost": "Avg Cost",
     "price": "Price",
     "value": "Value",
-    "noPrices": "No prices yet. Click Refresh prices."
+    "noPrices": "No prices yet. Click Refresh prices.",
+    "viewPortfolio": "View Portfolio"
   },
   "compare": {
     "title": "Quarter-over-Quarter Comparison",
@@ -37,6 +40,24 @@
     "decision": "Decision",
     "moat": "Moat",
     "trend": "Composite Score Trend"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "holdings": "Holdings",
+    "logDca": "Log DCA",
+    "history": "Transaction History",
+    "budgetUsd": "Total Budget (USD)",
+    "purchaseDatetime": "Purchase Date & Time (WIB)",
+    "preview": "Preview Allocation",
+    "allocationPct": "Allocation %",
+    "suggestedUsd": "Suggested USD",
+    "confirmSave": "Confirm & Save",
+    "saved": "Transaction saved",
+    "datetimeWib": "Date & Time (WIB)",
+    "delete": "Delete",
+    "confirmDelete": "Delete this transaction?",
+    "noAllocation": "No allocation yet. Add an initial position first.",
+    "error": "Something went wrong. Please try again."
   },
   "settings": {
     "title": "Settings",

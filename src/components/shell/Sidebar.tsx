@@ -7,18 +7,33 @@ const GROUPS = [
   {
     key: "stocks",
     items: [
-      { href: "/", key: "dashboard" },
-      { href: "/recommendation", key: "recommendation" },
-      { href: "/review", key: "review" },
-      { href: "/compare", key: "compare" },
+      { href: "/", key: "dashboard", activePaths: ["/"] },
+      { href: "/portfolio", key: "portfolio", activePaths: ["/portfolio"] },
     ],
   },
-  { key: "config", items: [{ href: "/settings", key: "settings" }] },
+  {
+    key: "decisions",
+    items: [
+      {
+        href: "/recommendation",
+        key: "decisions",
+        // Halaman ini menaungi 3 route yang saling terhubung lewat DecisionTabs
+        // di dalam halamannya sendiri — sidebar cukup 1 pintu masuk, tidak perlu
+        // daftar terpisah yang menduplikasi tab strip tersebut.
+        activePaths: ["/recommendation", "/review", "/compare"],
+      },
+    ],
+  },
+  {
+    key: "config",
+    items: [{ href: "/settings", key: "settings", activePaths: ["/settings"] }],
+  },
 ];
 
 export function Sidebar() {
   const t = useTranslations("nav");
   const path = usePathname();
+
   return (
     <aside className="w-56 shrink-0 border-r border-border bg-card/50 p-4 hidden md:block">
       <div className="font-bold mb-4">Investment SPK</div>
@@ -32,7 +47,9 @@ export function Sidebar() {
                   <Link
                     href={it.href}
                     className={`block rounded px-2 py-1 text-sm ${
-                      path === it.href ? "bg-accent text-accent-foreground" : "hover:bg-accent/50"
+                      it.activePaths.includes(path)
+                        ? "bg-accent text-accent-foreground"
+                        : "hover:bg-accent/50"
                     }`}
                   >
                     {t(it.key)}

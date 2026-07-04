@@ -2,25 +2,18 @@ import { getTranslations } from "next-intl/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-
-async function getData() {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  const res = await fetch(`${base}/api/recommendation`, { cache: "no-store" });
-  return res.json() as Promise<{
-    scores: Record<string, number>;
-    allocation: Record<string, number>;
-    activeCaps: string[];
-  }>;
-}
+import DecisionTabs from "@/components/DecisionTabs";
+import { getCurrentAllocation } from "@/lib/recommendation";
 
 export default async function RecommendationPage() {
   const t = await getTranslations("recommendation");
-  const data = await getData();
+  const data = await getCurrentAllocation();
   const rows = Object.keys(data.allocation).sort(
     (a, b) => data.allocation[b] - data.allocation[a],
   );
   return (
     <div className="space-y-4">
+      <DecisionTabs />
       <h1 className="text-2xl font-bold">{t("title")}</h1>
       {data.activeCaps.length > 0 && (
         <div className="flex gap-2">
