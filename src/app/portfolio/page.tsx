@@ -53,9 +53,9 @@ export default async function PortfolioPage() {
                   </TableCell>
                   <TableCell>{r.qty}</TableCell>
                   <TableCell>${r.avgCost.toFixed(2)}</TableCell>
-                  <TableCell>${r.price.toFixed(2)}</TableCell>
-                  <TableCell>${r.value.toFixed(2)}</TableCell>
-                  <TableCell>{r.pnlPct.toFixed(1)}%</TableCell>
+                  <TableCell>{r.hasPrice ? `$${r.price.toFixed(2)}` : "—"}</TableCell>
+                  <TableCell>{r.hasPrice ? `$${r.value.toFixed(2)}` : "—"}</TableCell>
+                  <TableCell>{r.hasPrice ? `${r.pnlPct.toFixed(1)}%` : "—"}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
