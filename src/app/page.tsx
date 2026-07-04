@@ -3,8 +3,6 @@ import { getTransactions, getCachedPrices } from "@/lib/repo";
 import { positionsFromTx } from "@/lib/holdings";
 import { portfolioSummary, donutData } from "@/lib/portfolio";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import RefreshPricesButton from "@/components/RefreshPricesButton";
 import AllocationDonut from "@/components/AllocationDonut";
 
@@ -49,51 +47,18 @@ export default async function Home() {
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("allocation")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <AllocationDonut data={donutData(s.rows)} />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("positions")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("ticker")}</TableHead>
-                  <TableHead>{t("price")}</TableHead>
-                  <TableHead>{t("value")}</TableHead>
-                  <TableHead>{t("pnl")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {s.rows.map((r) => (
-                  <TableRow key={r.ticker}>
-                    <TableCell>
-                      <a className="underline" href={`/stock/${r.ticker}`}>
-                        {r.ticker}
-                      </a>
-                    </TableCell>
-                    <TableCell>${r.price.toFixed(2)}</TableCell>
-                    <TableCell>${r.value.toFixed(2)}</TableCell>
-                    <TableCell>
-                      <Badge variant={r.pnlAbs >= 0 ? "default" : "destructive"}>
-                        {r.pnlPct.toFixed(1)}%
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>{t("allocation")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AllocationDonut data={donutData(s.rows)} />
+        </CardContent>
+      </Card>
+
+      <a className="text-sm underline" href="/portfolio">
+        {t("viewPortfolio")} &rarr;
+      </a>
     </div>
   );
 }
