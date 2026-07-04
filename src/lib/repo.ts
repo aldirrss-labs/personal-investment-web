@@ -253,3 +253,27 @@ export async function getAllAiAnalyses(): Promise<
   });
   return rows;
 }
+
+export async function getAllTransactions(): Promise<
+  Array<{ id: string; ticker: string; qty: number; price: number; date: Date }>
+> {
+  const rows = await prisma.transaction.findMany({ orderBy: { date: "desc" } });
+  return rows.map((r) => ({ id: r.id, ticker: r.ticker, qty: r.qty, price: r.price, date: r.date }));
+}
+
+export async function deleteTransaction(id: string): Promise<void> {
+  await prisma.transaction.delete({ where: { id } });
+}
+
+export async function addTransactions(
+  rows: Array<{ ticker: string; qty: number; price: number; date: Date }>,
+): Promise<void> {
+  for (const r of rows) {
+    await prisma.company.upsert({
+      where: { ticker: r.ticker },
+      update: {},
+      create: { ticker: r.ticker, name: r.ticker },
+    });
+    await prisma.transaction.create({ data: r });
+  }
+}
