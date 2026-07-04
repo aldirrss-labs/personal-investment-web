@@ -100,3 +100,9 @@ model AiAnalysis {
 
   @@unique([ticker, quarter])
 }
+
+model PriceCache {
+  ticker    String   @id
+  price     Float
+  updatedAt DateTime @updatedAt
+}
