@@ -6,7 +6,14 @@ export type FundamentalSet = {
   pe: number;
 };
 
+import { keysFromEnv } from "./keypool";
+
 const BASE = "https://financialmodelingprep.com/stable";
+
+/** Daftar API key FMP dari env: FMP_API_KEYS (plural) atau fallback FMP_API_KEY. */
+export function getFmpKeys(): string[] {
+  return keysFromEnv("FMP_API_KEYS", "FMP_API_KEY");
+}
 
 /**
  * Gabungkan respons 3 endpoint stable FMP menjadi FundamentalSet.
@@ -35,8 +42,9 @@ async function getJson(url: string, fetchImpl: typeof fetch): Promise<unknown> {
 export async function fetchFundamentals(
   ticker: string,
   fetchImpl: typeof fetch = fetch,
+  apiKey?: string,
 ): Promise<FundamentalSet> {
-  const key = process.env.FMP_API_KEY ?? "";
+  const key = apiKey ?? getFmpKeys()[0] ?? "";
   const q = `symbol=${ticker}&apikey=${key}`;
   const [growth, ratios, metrics] = await Promise.all([
     getJson(`${BASE}/financial-growth?${q}&limit=1`, fetchImpl),
