@@ -6,6 +6,14 @@
     "viewReview": "Review Quartal",
     "viewSettings": "Pengaturan"
   },
+  "nav": {
+    "stocks": "Saham",
+    "config": "Konfigurasi",
+    "dashboard": "Dashboard",
+    "recommendation": "Rekomendasi",
+    "review": "Review",
+    "settings": "Pengaturan"
+  },
   "settings": {
     "title": "Pengaturan",
     "weights": "Bobot SAW",

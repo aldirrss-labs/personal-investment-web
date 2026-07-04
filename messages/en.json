@@ -6,6 +6,14 @@
     "viewReview": "Quarterly Review",
     "viewSettings": "Settings"
   },
+  "nav": {
+    "stocks": "Stocks",
+    "config": "Config",
+    "dashboard": "Dashboard",
+    "recommendation": "Recommendation",
+    "review": "Review",
+    "settings": "Settings"
+  },
   "settings": {
     "title": "Settings",
     "weights": "SAW Weights",
