@@ -14,7 +14,8 @@ import {
 import { positionsFromTx } from "@/lib/holdings";
 import { compositeScores, type Criterion } from "@/lib/scoring";
 import { recommendAllocation } from "@/lib/allocation";
-import { fetchFundamentals } from "@/lib/fmp";
+import { fetchFundamentals, getFmpKeys } from "@/lib/fmp";
+import { createKeyPool } from "@/lib/keypool";
 import { providersFromEnv } from "@/lib/ai";
 import { analyzeWithFallback } from "@/lib/ai/orchestrator";
 import { criterionScoresFromAnalysis, buildSnapshotEntries } from "@/lib/snapshot";
@@ -22,6 +23,10 @@ import { currentQuarter } from "@/lib/quarter";
 import { resolveAiLanguage } from "@/lib/language";
 import { getUserLocale } from "@/i18n/locale-actions";
 import { revalidatePath } from "next/cache";
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+// Jeda antar-saham untuk menghindari rate-limit borongan FMP free tier.
+const THROTTLE_MS = 1200;
 
 export async function runReview(
   quarterOverride?: string,
@@ -38,14 +43,23 @@ export async function runReview(
   const language = resolveAiLanguage(await getAiLanguage(), await getUserLocale());
   let aiUnavailable = providers.length === 0;
 
-  // AI per saham (grounding: fundamental fetched, fallback provider)
-  for (const t of tickers) {
+  const fmpKeys = getFmpKeys();
+  const fmpPool = fmpKeys.length ? createKeyPool(fmpKeys) : null;
+
+  // AI per saham, sekuensial + jeda (anti rate-limit). Fundamental gagal -> mode degraded.
+  for (let idx = 0; idx < tickers.length; idx++) {
+    const t = tickers[idx];
+    if (idx > 0) await sleep(THROTTLE_MS);
+
     let fundamentals;
-    try {
-      fundamentals = await fetchFundamentals(t);
-    } catch {
-      continue; // tanpa fundamental, lewati AI untuk saham ini
+    if (fmpPool) {
+      try {
+        fundamentals = await fetchFundamentals(t, undefined, fmpPool.next());
+      } catch {
+        fundamentals = undefined; // FMP gagal/limit -> AI tetap jalan kualitatif
+      }
     }
+
     if (providers.length === 0) continue;
     const res = await analyzeWithFallback({ ticker: t, fundamentals, language }, providers);
     if (!res) {
