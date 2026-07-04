@@ -16,7 +16,7 @@ import { compositeScores, type Criterion } from "@/lib/scoring";
 import { recommendAllocation } from "@/lib/allocation";
 import { fetchFundamentals, getFmpKeys } from "@/lib/fmp";
 import { createKeyPool } from "@/lib/keypool";
-import { providersFromEnv } from "@/lib/ai";
+import { buildProvidersFromStore } from "@/lib/ai";
 import { analyzeWithFallback } from "@/lib/ai/orchestrator";
 import { criterionScoresFromAnalysis, buildSnapshotEntries } from "@/lib/snapshot";
 import { currentQuarter } from "@/lib/quarter";
@@ -39,7 +39,7 @@ export async function runReview(
   const positions = positionsFromTx(txs);
   const tickers = positions.map((p) => p.ticker);
 
-  const providers = providersFromEnv();
+  const providers = await buildProvidersFromStore();
   const language = resolveAiLanguage(await getAiLanguage(), await getUserLocale());
   let aiUnavailable = providers.length === 0;
 
