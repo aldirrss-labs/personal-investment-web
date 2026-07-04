@@ -4,6 +4,7 @@ import { positionsFromTx } from "@/lib/holdings";
 import { portfolioSummary } from "@/lib/portfolio";
 import { formatWib } from "@/lib/wib";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -27,7 +28,7 @@ export default async function PortfolioPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">{t("title")}</h1>
 
-      <Card>
+      <Card className="border-l-4 border-l-blue-500">
         <CardHeader>
           <CardTitle>{t("holdings")}</CardTitle>
         </CardHeader>
@@ -55,7 +56,15 @@ export default async function PortfolioPage() {
                   <TableCell>${r.avgCost.toFixed(2)}</TableCell>
                   <TableCell>{r.hasPrice ? `$${r.price.toFixed(2)}` : "—"}</TableCell>
                   <TableCell>{r.hasPrice ? `$${r.value.toFixed(2)}` : "—"}</TableCell>
-                  <TableCell>{r.hasPrice ? `${r.pnlPct.toFixed(1)}%` : "—"}</TableCell>
+                  <TableCell>
+                    {r.hasPrice ? (
+                      <Badge variant={r.pnlAbs >= 0 ? "default" : "destructive"}>
+                        {r.pnlPct.toFixed(1)}%
+                      </Badge>
+                    ) : (
+                      "—"
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -63,7 +72,7 @@ export default async function PortfolioPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border-l-4 border-l-violet-500">
         <CardHeader>
           <CardTitle>{t("logDca")}</CardTitle>
         </CardHeader>
@@ -72,7 +81,7 @@ export default async function PortfolioPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border-l-4 border-l-amber-500">
         <CardHeader>
           <CardTitle>{t("history")}</CardTitle>
         </CardHeader>

@@ -1,14 +1,18 @@
-import { Sidebar } from "./Sidebar";
+import { Sidebar, MobileSidebarDrawer } from "./Sidebar";
 import { Topbar } from "./Topbar";
+import { MobileNavProvider } from "./MobileNavContext";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
-        <Topbar />
-        <main className="flex-1 p-6">{children}</main>
+    <MobileNavProvider>
+      <div className="flex min-h-screen">
+        <Sidebar />
+        <MobileSidebarDrawer />
+        <div className="flex-1 flex flex-col">
+          <Topbar />
+          <main className="flex-1 p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </MobileNavProvider>
   );
 }

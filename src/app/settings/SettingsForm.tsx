@@ -41,7 +41,7 @@ export default function SettingsForm(p: Props) {
 
   return (
     <div className="space-y-6 max-w-2xl">
-      <Card>
+      <Card className="border-l-4 border-l-blue-500">
         <CardContent className="pt-6 space-y-2">
           <h2 className="font-semibold">{t("weights")}</h2>
           {(["fundamental", "moat", "technical", "diversification"] as const).map((k) => (
@@ -58,7 +58,7 @@ export default function SettingsForm(p: Props) {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border-l-4 border-l-green-500">
         <CardContent className="pt-6 space-y-2">
           <h2 className="font-semibold">{t("perStockCap")}</h2>
           <Input
@@ -70,7 +70,7 @@ export default function SettingsForm(p: Props) {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border-l-4 border-l-violet-500">
         <CardContent className="pt-6 space-y-2">
           <h2 className="font-semibold">{t("sectors")}</h2>
           <Button
@@ -91,7 +91,7 @@ export default function SettingsForm(p: Props) {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border-l-4 border-l-amber-500">
         <CardContent className="pt-6 space-y-2">
           <h2 className="font-semibold">{t("sectorCaps")}</h2>
           {sectorNames.map((name) => (
@@ -108,7 +108,7 @@ export default function SettingsForm(p: Props) {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border-l-4 border-l-indigo-500">
         <CardContent className="pt-6 space-y-2">
           <h2 className="font-semibold">{t("ai")}</h2>
           <label className="block text-sm">

@@ -41,7 +41,7 @@ export default async function ReviewPage({
       )}
       {!snap && <p className="text-muted-foreground">{t("noSnapshot")}</p>}
       {snap && (
-        <Card>
+        <Card className="border-l-4 border-l-green-500">
           <CardHeader>
             <CardTitle>{quarter}</CardTitle>
           </CardHeader>
