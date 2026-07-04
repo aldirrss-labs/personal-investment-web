@@ -4,6 +4,7 @@ import RunReviewButton from "@/components/RunReviewButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import DecisionTabs from "@/components/DecisionTabs";
 
 export default async function ReviewPage({
   searchParams,
@@ -18,6 +19,7 @@ export default async function ReviewPage({
 
   return (
     <div className="space-y-4">
+      <DecisionTabs />
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t("title")}</h1>
         <RunReviewButton />

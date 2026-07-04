@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import DecisionTabs from "@/components/DecisionTabs";
 
 async function getData() {
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
@@ -21,6 +22,7 @@ export default async function RecommendationPage() {
   );
   return (
     <div className="space-y-4">
+      <DecisionTabs />
       <h1 className="text-2xl font-bold">{t("title")}</h1>
       {data.activeCaps.length > 0 && (
         <div className="flex gap-2">
