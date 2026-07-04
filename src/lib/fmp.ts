@@ -39,6 +39,19 @@ async function getJson(url: string, fetchImpl: typeof fetch): Promise<unknown> {
   return res.json();
 }
 
+export async function fetchProfile(
+  ticker: string,
+  fetchImpl: typeof fetch = fetch,
+  apiKey?: string,
+): Promise<{ sector: string; industry: string }> {
+  const key = apiKey ?? getFmpKeys()[0] ?? "";
+  const res = await fetchImpl(`${BASE}/profile?symbol=${ticker}&apikey=${key}`);
+  if (!res.ok) throw new Error(`FMP ${res.status}`);
+  const json = (await res.json()) as any;
+  const p = Array.isArray(json) ? json[0] : json;
+  return { sector: p?.sector ?? "", industry: p?.industry ?? "" };
+}
+
 export async function fetchFundamentals(
   ticker: string,
   fetchImpl: typeof fetch = fetch,
