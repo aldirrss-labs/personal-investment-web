@@ -14,6 +14,19 @@
     "review": "Review",
     "settings": "Pengaturan"
   },
+  "dashboard": {
+    "totalValue": "Total Nilai",
+    "pnl": "PnL",
+    "positions": "Posisi",
+    "refreshPrices": "Refresh harga",
+    "allocation": "Alokasi (nilai pasar)",
+    "ticker": "Ticker",
+    "qty": "Jumlah",
+    "avgCost": "Avg Cost",
+    "price": "Harga",
+    "value": "Nilai",
+    "noPrices": "Belum ada harga. Klik Refresh harga."
+  },
   "settings": {
     "title": "Pengaturan",
     "weights": "Bobot SAW",

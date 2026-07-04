@@ -14,6 +14,19 @@
     "review": "Review",
     "settings": "Settings"
   },
+  "dashboard": {
+    "totalValue": "Total Value",
+    "pnl": "PnL",
+    "positions": "Positions",
+    "refreshPrices": "Refresh prices",
+    "allocation": "Allocation (market value)",
+    "ticker": "Ticker",
+    "qty": "Qty",
+    "avgCost": "Avg Cost",
+    "price": "Price",
+    "value": "Value",
+    "noPrices": "No prices yet. Click Refresh prices."
+  },
   "settings": {
     "title": "Settings",
     "weights": "SAW Weights",
