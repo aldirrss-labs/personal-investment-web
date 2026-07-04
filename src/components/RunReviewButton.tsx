@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
 import { runReview } from "@/app/review/actions";
 
 export default function RunReviewButton() {
@@ -10,8 +11,7 @@ export default function RunReviewButton() {
   const [msg, setMsg] = useState<string | null>(null);
   return (
     <div className="space-y-2">
-      <button
-        className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+      <Button
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
@@ -21,7 +21,7 @@ export default function RunReviewButton() {
         }
       >
         {isPending ? t("running") : t("run")}
-      </button>
+      </Button>
       {msg && <p className="text-sm text-amber-600">{msg}</p>}
     </div>
   );
