@@ -55,7 +55,9 @@
     "saved": "Transaksi tersimpan",
     "datetimeWib": "Tanggal & Jam (WIB)",
     "delete": "Hapus",
-    "confirmDelete": "Hapus transaksi ini?"
+    "confirmDelete": "Hapus transaksi ini?",
+    "noAllocation": "Belum ada alokasi. Tambahkan posisi awal terlebih dahulu.",
+    "error": "Terjadi kesalahan. Coba lagi."
   },
   "settings": {
     "title": "Pengaturan",

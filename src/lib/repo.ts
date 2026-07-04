@@ -262,7 +262,13 @@ export async function getAllTransactions(): Promise<
 }
 
 export async function deleteTransaction(id: string): Promise<void> {
-  await prisma.transaction.delete({ where: { id } });
+  try {
+    await prisma.transaction.delete({ where: { id } });
+  } catch (e: unknown) {
+    const code = (e as { code?: string } | null)?.code;
+    if (code === "P2025") return; // already gone; desired end state achieved
+    throw e;
+  }
 }
 
 export async function addTransactions(

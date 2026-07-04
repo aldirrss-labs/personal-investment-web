@@ -18,3 +18,9 @@ describe("formatWib", () => {
     expect(formatWib(d)).toBe("2026-07-05 14:30 WIB");
   });
 });
+
+describe("parseWibDatetimeLocal invalid input", () => {
+  test("string kosong throw error", () => {
+    expect(() => parseWibDatetimeLocal("")).toThrow();
+  });
+});

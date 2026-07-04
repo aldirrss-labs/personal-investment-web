@@ -13,29 +13,18 @@ import {
 } from "@/components/ui/table";
 import { previewDca, confirmDca } from "./actions";
 import type { DcaSuggestion } from "@/lib/dca";
-
-function nowWibForInput(): string {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Jakarta",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).formatToParts(new Date());
-  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
-  return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}`;
-}
+import { formatWibForInput } from "@/lib/wib";
 
 export default function LogDcaForm() {
   const t = useTranslations("portfolio");
   const td = useTranslations("dashboard");
   const [isPending, start] = useTransition();
   const [budget, setBudget] = useState(0);
-  const [datetimeLocal, setDatetimeLocal] = useState(nowWibForInput());
+  const [datetimeLocal, setDatetimeLocal] = useState(formatWibForInput(new Date()));
   const [rows, setRows] = useState<DcaSuggestion[]>([]);
   const [msg, setMsg] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [hasPreviewed, setHasPreviewed] = useState(false);
 
   return (
     <div className="space-y-3">
@@ -45,7 +34,7 @@ export default function LogDcaForm() {
           <Input
             type="number"
             value={budget}
-            onChange={(e) => setBudget(Number(e.target.value))}
+            onChange={(e) => setBudget(Number(e.target.value) || 0)}
             className="w-32"
           />
         </label>
@@ -59,7 +48,19 @@ export default function LogDcaForm() {
         </label>
         <Button
           disabled={isPending || budget <= 0}
-          onClick={() => start(async () => setRows(await previewDca(budget)))}
+          onClick={() =>
+            start(async () => {
+              try {
+                setError(null);
+                const result = await previewDca(budget);
+                setRows(result);
+              } catch {
+                setError(t("error"));
+              } finally {
+                setHasPreviewed(true);
+              }
+            })
+          }
         >
           {t("preview")}
         </Button>
@@ -90,7 +91,7 @@ export default function LogDcaForm() {
                       value={r.suggestedQty}
                       onChange={(e) => {
                         const next = [...rows];
-                        next[i] = { ...r, suggestedQty: Number(e.target.value) };
+                        next[i] = { ...r, suggestedQty: Number(e.target.value) || 0 };
                         setRows(next);
                       }}
                       className="w-24"
@@ -103,7 +104,7 @@ export default function LogDcaForm() {
                       value={r.price}
                       onChange={(e) => {
                         const next = [...rows];
-                        next[i] = { ...r, price: Number(e.target.value) };
+                        next[i] = { ...r, price: Number(e.target.value) || 0 };
                         setRows(next);
                       }}
                       className="w-24"
@@ -117,13 +118,19 @@ export default function LogDcaForm() {
             disabled={isPending}
             onClick={() =>
               start(async () => {
-                await confirmDca(
-                  rows.map((r) => ({ ticker: r.ticker, qty: r.suggestedQty, price: r.price })),
-                  datetimeLocal,
-                );
-                setMsg(t("saved"));
-                setRows([]);
-                setBudget(0);
+                try {
+                  setError(null);
+                  await confirmDca(
+                    rows.map((r) => ({ ticker: r.ticker, qty: r.suggestedQty, price: r.price })),
+                    datetimeLocal,
+                  );
+                  setMsg(t("saved"));
+                  setRows([]);
+                  setBudget(0);
+                  setHasPreviewed(false);
+                } catch {
+                  setError(t("error"));
+                }
               })
             }
           >
@@ -131,7 +138,11 @@ export default function LogDcaForm() {
           </Button>
         </>
       )}
+      {hasPreviewed && rows.length === 0 && !error && (
+        <p className="text-sm">{t("noAllocation")}</p>
+      )}
       {msg && <p className="text-green-600 text-sm">{msg}</p>}
+      {error && <p className="text-red-600 text-sm">{error}</p>}
     </div>
   );
 }

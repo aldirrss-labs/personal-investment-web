@@ -55,7 +55,9 @@
     "saved": "Transaction saved",
     "datetimeWib": "Date & Time (WIB)",
     "delete": "Delete",
-    "confirmDelete": "Delete this transaction?"
+    "confirmDelete": "Delete this transaction?",
+    "noAllocation": "No allocation yet. Add an initial position first.",
+    "error": "Something went wrong. Please try again."
   },
   "settings": {
     "title": "Settings",
