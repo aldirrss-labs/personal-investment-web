@@ -3,20 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import DecisionTabs from "@/components/DecisionTabs";
-
-async function getData() {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  const res = await fetch(`${base}/api/recommendation`, { cache: "no-store" });
-  return res.json() as Promise<{
-    scores: Record<string, number>;
-    allocation: Record<string, number>;
-    activeCaps: string[];
-  }>;
-}
+import { getCurrentAllocation } from "@/lib/recommendation";
 
 export default async function RecommendationPage() {
   const t = await getTranslations("recommendation");
-  const data = await getData();
+  const data = await getCurrentAllocation();
   const rows = Object.keys(data.allocation).sort(
     (a, b) => data.allocation[b] - data.allocation[a],
   );
