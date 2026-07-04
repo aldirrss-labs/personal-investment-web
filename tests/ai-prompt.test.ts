@@ -22,4 +22,14 @@ describe("buildAnalystPrompt", () => {
     const p = buildAnalystPrompt({ ...input, language: "en" });
     expect(p).toMatch(/English/i);
   });
+
+  test("mode degraded: tanpa fundamentals -> minta kualitatif & jangan mengarang angka", () => {
+    const { fundamentals, ...rest } = input;
+    const p = buildAnalystPrompt(rest);
+    expect(p).toMatch(/not available|unavailable|tidak tersedia/i);
+    expect(p).toMatch(/do not (invent|fabricate)|jangan mengarang/i);
+    // tetap memuat ticker, rubrik, dan format JSON
+    expect(p).toContain("NVDA");
+    expect(p).toMatch(/JSON/);
+  });
 });

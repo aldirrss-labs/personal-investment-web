@@ -16,15 +16,20 @@ Criteria to score:
 
 export function buildAnalystPrompt(input: AiInput): string {
   const f = input.fundamentals;
+  const fundamentalsBlock = f
+    ? [
+        `Fundamentals (already fetched, do not invent numbers):`,
+        `- revenue growth (%): ${f.revenueGrowth}`,
+        `- net margin (%): ${f.netMargin}`,
+        `- ROE (%): ${f.roe}`,
+        `- debt/equity: ${f.debtToEquity}`,
+        `- P/E: ${f.pe}`,
+      ].join("\n")
+    : `Fundamentals are NOT available (not fetched). Assess qualitatively from your knowledge of the company; do not invent or fabricate specific numbers.`;
   return [
     aiLanguageInstruction(input.language),
     `You are an equity analyst. Analyze the company ${input.ticker}.`,
-    `Fundamentals (already fetched, do not invent numbers):`,
-    `- revenue growth (%): ${f.revenueGrowth}`,
-    `- net margin (%): ${f.netMargin}`,
-    `- ROE (%): ${f.roe}`,
-    `- debt/equity: ${f.debtToEquity}`,
-    `- P/E: ${f.pe}`,
+    fundamentalsBlock,
     input.positionPct !== undefined
       ? `Current portfolio weight of this holding: ${input.positionPct}%`
       : ``,
