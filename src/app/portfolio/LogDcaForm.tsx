@@ -169,7 +169,7 @@ export default function LogDcaForm() {
                 type="datetime-local"
                 value={manualDatetime}
                 onChange={(e) => setManualDatetime(e.target.value)}
-                className="w-48"
+                className="w-60"
               />
             </label>
             <Button
@@ -231,7 +231,7 @@ export default function LogDcaForm() {
                         type="datetime-local"
                         value={r.datetime}
                         onChange={(e) => updateRow(i, { datetime: e.target.value })}
-                        className="w-48"
+                        className="w-60"
                       />
                     </TableCell>
                   </TableRow>
