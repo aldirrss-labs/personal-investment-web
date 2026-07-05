@@ -38,6 +38,7 @@ export default function LogDcaForm() {
   const [manualTicker, setManualTicker] = useState("");
   const [manualQtyStr, setManualQtyStr] = useState("");
   const [manualPriceStr, setManualPriceStr] = useState("");
+  const [manualDatetime, setManualDatetime] = useState(datetimeLocal);
 
   const budget = Number(budgetStr) || 0;
   const manualQty = Number(manualQtyStr) || 0;
@@ -56,7 +57,7 @@ export default function LogDcaForm() {
           isManual: true,
           qty: manualQtyStr,
           price: manualPriceStr || "0",
-          datetime: datetimeLocal,
+          datetime: manualDatetime,
         },
       ];
     });
@@ -160,6 +161,15 @@ export default function LogDcaForm() {
                 value={manualPriceStr}
                 onChange={(e) => setManualPriceStr(e.target.value)}
                 className="w-32"
+              />
+            </label>
+            <label className="text-sm">
+              {t("datetimeWib")}
+              <Input
+                type="datetime-local"
+                value={manualDatetime}
+                onChange={(e) => setManualDatetime(e.target.value)}
+                className="w-48"
               />
             </label>
             <Button
