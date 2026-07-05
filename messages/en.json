@@ -118,6 +118,13 @@
     "id": "Indonesian",
     "en": "English"
   },
+  "login": {
+    "title": "Investment SPK",
+    "hint": "Enter the password to continue.",
+    "password": "Password",
+    "submit": "Sign in",
+    "wrongPassword": "Wrong password."
+  },
   "stock": {
     "title": "Stock Card",
     "compositeScore": "Composite Score",

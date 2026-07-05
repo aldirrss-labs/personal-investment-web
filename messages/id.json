@@ -118,6 +118,13 @@
     "id": "Bahasa Indonesia",
     "en": "Bahasa Inggris"
   },
+  "login": {
+    "title": "Investment SPK",
+    "hint": "Masukkan password untuk melanjutkan.",
+    "password": "Password",
+    "submit": "Masuk",
+    "wrongPassword": "Password salah."
+  },
   "stock": {
     "title": "Kartu Saham",
     "compositeScore": "Skor Komposit",
