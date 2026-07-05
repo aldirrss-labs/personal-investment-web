@@ -26,8 +26,27 @@ export default function LogDcaForm() {
   const [error, setError] = useState<string | null>(null);
   const [hasPreviewed, setHasPreviewed] = useState(false);
 
+  const [manualTicker, setManualTicker] = useState("");
+  const [manualQty, setManualQty] = useState(0);
+  const [manualPrice, setManualPrice] = useState(0);
+
+  function addManualRow() {
+    const ticker = manualTicker.trim().toUpperCase();
+    if (!ticker || manualQty <= 0) return;
+    setRows((prev) => {
+      if (prev.some((r) => r.ticker === ticker)) return prev;
+      return [
+        ...prev,
+        { ticker, allocationPct: 0, suggestedUsd: manualQty * manualPrice, suggestedQty: manualQty, price: manualPrice },
+      ];
+    });
+    setManualTicker("");
+    setManualQty(0);
+    setManualPrice(0);
+  }
+
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div className="flex gap-2 items-end flex-wrap">
         <label className="text-sm">
           {t("budgetUsd")}
@@ -64,6 +83,49 @@ export default function LogDcaForm() {
         >
           {t("preview")}
         </Button>
+      </div>
+
+      <div className="rounded-md border border-dashed p-3 space-y-2">
+        <p className="text-sm font-medium">{t("manualAdd")}</p>
+        <p className="text-xs text-muted-foreground">{t("manualHint")}</p>
+        <div className="flex gap-2 items-end flex-wrap">
+          <label className="text-sm">
+            {td("ticker")}
+            <Input
+              value={manualTicker}
+              onChange={(e) => setManualTicker(e.target.value)}
+              className="w-28 uppercase"
+              placeholder="TSLA"
+            />
+          </label>
+          <label className="text-sm">
+            {td("qty")}
+            <Input
+              type="number"
+              step="0.0001"
+              value={manualQty || ""}
+              onChange={(e) => setManualQty(Number(e.target.value) || 0)}
+              className="w-24"
+            />
+          </label>
+          <label className="text-sm">
+            {td("price")}
+            <Input
+              type="number"
+              step="0.01"
+              value={manualPrice || ""}
+              onChange={(e) => setManualPrice(Number(e.target.value) || 0)}
+              className="w-24"
+            />
+          </label>
+          <Button
+            variant="outline"
+            disabled={!manualTicker.trim() || manualQty <= 0}
+            onClick={addManualRow}
+          >
+            {t("addManual")}
+          </Button>
+        </div>
       </div>
 
       {rows.length > 0 && (
