@@ -106,7 +106,7 @@ export default function LogDcaForm() {
               <Input
                 value={manualTicker}
                 onChange={(e) => setManualTicker(e.target.value)}
-                className="w-24 uppercase"
+                className="w-28 uppercase"
                 placeholder="TSLA"
               />
             </label>
@@ -117,7 +117,7 @@ export default function LogDcaForm() {
                 step="0.0001"
                 value={manualQty || ""}
                 onChange={(e) => setManualQty(Number(e.target.value) || 0)}
-                className="w-20"
+                className="w-32"
               />
             </label>
             <label className="text-sm">
@@ -127,7 +127,7 @@ export default function LogDcaForm() {
                 step="0.01"
                 value={manualPrice || ""}
                 onChange={(e) => setManualPrice(Number(e.target.value) || 0)}
-                className="w-20"
+                className="w-32"
               />
             </label>
             <Button
@@ -172,7 +172,7 @@ export default function LogDcaForm() {
                         next[i] = { ...r, suggestedQty: Number(e.target.value) || 0 };
                         setRows(next);
                       }}
-                      className="w-24"
+                      className="w-32"
                     />
                   </TableCell>
                   <TableCell>
@@ -185,7 +185,7 @@ export default function LogDcaForm() {
                         next[i] = { ...r, price: Number(e.target.value) || 0 };
                         setRows(next);
                       }}
-                      className="w-24"
+                      className="w-32"
                     />
                   </TableCell>
                 </TableRow>
