@@ -24,6 +24,12 @@ type Row = {
   datetime: string;
 };
 
+// Keyboard angka HP sering pakai koma sebagai pemisah desimal tergantung locale
+// (mis. "0,3"), sedangkan Number() JS cuma paham titik dan akan hasilkan NaN.
+function parseDecimal(value: string): number {
+  return Number(value.replace(",", ".")) || 0;
+}
+
 export default function LogDcaForm() {
   const t = useTranslations("portfolio");
   const td = useTranslations("dashboard");
@@ -40,8 +46,8 @@ export default function LogDcaForm() {
   const [manualPriceStr, setManualPriceStr] = useState("");
   const [manualDatetime, setManualDatetime] = useState(datetimeLocal);
 
-  const budget = Number(budgetStr) || 0;
-  const manualQty = Number(manualQtyStr) || 0;
+  const budget = parseDecimal(budgetStr);
+  const manualQty = parseDecimal(manualQtyStr);
 
   function addManualRow() {
     const ticker = manualTicker.trim().toUpperCase();
@@ -248,8 +254,8 @@ export default function LogDcaForm() {
                   await confirmDca(
                     rows.map((r) => ({
                       ticker: r.ticker,
-                      qty: Number(r.qty) || 0,
-                      price: Number(r.price) || 0,
+                      qty: parseDecimal(r.qty),
+                      price: parseDecimal(r.price),
                       datetimeLocal: r.datetime,
                     })),
                   );
