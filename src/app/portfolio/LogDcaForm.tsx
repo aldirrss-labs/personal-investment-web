@@ -12,23 +12,35 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { previewDca, confirmDca } from "./actions";
-import type { DcaSuggestion } from "@/lib/dca";
 import { formatWibForInput } from "@/lib/wib";
+
+type Row = {
+  ticker: string;
+  allocationPct: number;
+  suggestedUsd: number;
+  isManual: boolean;
+  qty: string;
+  price: string;
+  datetime: string;
+};
 
 export default function LogDcaForm() {
   const t = useTranslations("portfolio");
   const td = useTranslations("dashboard");
   const [isPending, start] = useTransition();
-  const [budget, setBudget] = useState(0);
+  const [budgetStr, setBudgetStr] = useState("");
   const [datetimeLocal, setDatetimeLocal] = useState(formatWibForInput(new Date()));
-  const [rows, setRows] = useState<DcaSuggestion[]>([]);
+  const [rows, setRows] = useState<Row[]>([]);
   const [msg, setMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [hasPreviewed, setHasPreviewed] = useState(false);
 
   const [manualTicker, setManualTicker] = useState("");
-  const [manualQty, setManualQty] = useState(0);
-  const [manualPrice, setManualPrice] = useState(0);
+  const [manualQtyStr, setManualQtyStr] = useState("");
+  const [manualPriceStr, setManualPriceStr] = useState("");
+
+  const budget = Number(budgetStr) || 0;
+  const manualQty = Number(manualQtyStr) || 0;
 
   function addManualRow() {
     const ticker = manualTicker.trim().toUpperCase();
@@ -37,17 +49,29 @@ export default function LogDcaForm() {
       if (prev.some((r) => r.ticker === ticker)) return prev;
       return [
         ...prev,
-        { ticker, allocationPct: 0, suggestedUsd: manualQty * manualPrice, suggestedQty: manualQty, price: manualPrice },
+        {
+          ticker,
+          allocationPct: 0,
+          suggestedUsd: 0,
+          isManual: true,
+          qty: manualQtyStr,
+          price: manualPriceStr || "0",
+          datetime: datetimeLocal,
+        },
       ];
     });
     setManualTicker("");
-    setManualQty(0);
-    setManualPrice(0);
+    setManualQtyStr("");
+    setManualPriceStr("");
+  }
+
+  function updateRow(i: number, patch: Partial<Row>) {
+    setRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, ...patch } : r)));
   }
 
   return (
     <div className="space-y-4">
-      <label className="block text-sm max-w-[220px]">
+      <label className="block text-sm max-w-xs">
         {t("purchaseDatetime")}
         <Input
           type="datetime-local"
@@ -55,6 +79,7 @@ export default function LogDcaForm() {
           onChange={(e) => setDatetimeLocal(e.target.value)}
         />
       </label>
+      <p className="text-xs text-muted-foreground max-w-md -mt-3">{t("purchaseDatetimeHint")}</p>
 
       <div className="grid gap-3 md:grid-cols-2 md:items-stretch">
         <div className="rounded-md border p-3 space-y-2">
@@ -64,10 +89,10 @@ export default function LogDcaForm() {
             <label className="text-sm">
               {t("budgetUsd")}
               <Input
-                type="number"
-                value={budget}
-                onChange={(e) => setBudget(Number(e.target.value) || 0)}
-                className="w-32"
+                inputMode="decimal"
+                value={budgetStr}
+                onChange={(e) => setBudgetStr(e.target.value)}
+                className="w-36"
               />
             </label>
             <Button
@@ -77,9 +102,18 @@ export default function LogDcaForm() {
                   try {
                     setError(null);
                     const result = await previewDca(budget);
+                    const newRows: Row[] = result.map((s) => ({
+                      ticker: s.ticker,
+                      allocationPct: s.allocationPct,
+                      suggestedUsd: s.suggestedUsd,
+                      isManual: false,
+                      qty: String(s.suggestedQty),
+                      price: String(s.price),
+                      datetime: datetimeLocal,
+                    }));
                     setRows((prev) => [
-                      ...prev.filter((r) => !result.some((n) => n.ticker === r.ticker)),
-                      ...result,
+                      ...prev.filter((r) => !newRows.some((n) => n.ticker === r.ticker)),
+                      ...newRows,
                     ]);
                   } catch {
                     setError(t("error"));
@@ -113,20 +147,18 @@ export default function LogDcaForm() {
             <label className="text-sm">
               {td("qty")}
               <Input
-                type="number"
-                step="0.0001"
-                value={manualQty || ""}
-                onChange={(e) => setManualQty(Number(e.target.value) || 0)}
+                inputMode="decimal"
+                value={manualQtyStr}
+                onChange={(e) => setManualQtyStr(e.target.value)}
                 className="w-32"
               />
             </label>
             <label className="text-sm">
               {td("price")}
               <Input
-                type="number"
-                step="0.01"
-                value={manualPrice || ""}
-                onChange={(e) => setManualPrice(Number(e.target.value) || 0)}
+                inputMode="decimal"
+                value={manualPriceStr}
+                onChange={(e) => setManualPriceStr(e.target.value)}
                 className="w-32"
               />
             </label>
@@ -146,52 +178,57 @@ export default function LogDcaForm() {
           <p className="text-sm font-medium text-muted-foreground">
             {t("rowsToSave")} ({rows.length})
           </p>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{td("ticker")}</TableHead>
-                <TableHead>{t("allocationPct")}</TableHead>
-                <TableHead>{t("suggestedUsd")}</TableHead>
-                <TableHead>{td("qty")}</TableHead>
-                <TableHead>{td("price")}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {rows.map((r, i) => (
-                <TableRow key={r.ticker}>
-                  <TableCell>{r.ticker}</TableCell>
-                  <TableCell>{r.allocationPct.toFixed(1)}%</TableCell>
-                  <TableCell>${r.suggestedUsd.toFixed(2)}</TableCell>
-                  <TableCell>
-                    <Input
-                      type="number"
-                      step="0.0001"
-                      value={r.suggestedQty}
-                      onChange={(e) => {
-                        const next = [...rows];
-                        next[i] = { ...r, suggestedQty: Number(e.target.value) || 0 };
-                        setRows(next);
-                      }}
-                      className="w-32"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="number"
-                      step="0.01"
-                      value={r.price}
-                      onChange={(e) => {
-                        const next = [...rows];
-                        next[i] = { ...r, price: Number(e.target.value) || 0 };
-                        setRows(next);
-                      }}
-                      className="w-32"
-                    />
-                  </TableCell>
+          <div className="overflow-x-auto rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{td("ticker")}</TableHead>
+                  <TableHead>{t("allocationPct")}</TableHead>
+                  <TableHead>{t("suggestedUsd")}</TableHead>
+                  <TableHead>{td("qty")}</TableHead>
+                  <TableHead>{td("price")}</TableHead>
+                  <TableHead>{t("datetimeWib")}</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {rows.map((r, i) => (
+                  <TableRow key={r.ticker}>
+                    <TableCell className="font-medium">{r.ticker}</TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {r.isManual ? "—" : `${r.allocationPct.toFixed(1)}%`}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {r.isManual ? "—" : `$${r.suggestedUsd.toFixed(2)}`}
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        inputMode="decimal"
+                        value={r.qty}
+                        onChange={(e) => updateRow(i, { qty: e.target.value })}
+                        className="w-32"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        inputMode="decimal"
+                        value={r.price}
+                        onChange={(e) => updateRow(i, { price: e.target.value })}
+                        className="w-32"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="datetime-local"
+                        value={r.datetime}
+                        onChange={(e) => updateRow(i, { datetime: e.target.value })}
+                        className="w-48"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
           <Button
             disabled={isPending}
             onClick={() =>
@@ -199,12 +236,16 @@ export default function LogDcaForm() {
                 try {
                   setError(null);
                   await confirmDca(
-                    rows.map((r) => ({ ticker: r.ticker, qty: r.suggestedQty, price: r.price })),
-                    datetimeLocal,
+                    rows.map((r) => ({
+                      ticker: r.ticker,
+                      qty: Number(r.qty) || 0,
+                      price: Number(r.price) || 0,
+                      datetimeLocal: r.datetime,
+                    })),
                   );
                   setMsg(t("saved"));
                   setRows([]);
-                  setBudget(0);
+                  setBudgetStr("");
                   setHasPreviewed(false);
                 } catch {
                   setError(t("error"));
