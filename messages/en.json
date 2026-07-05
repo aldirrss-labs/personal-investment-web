@@ -58,9 +58,13 @@
     "confirmDelete": "Delete this transaction?",
     "noAllocation": "No allocation yet. Add an initial position first.",
     "error": "Something went wrong. Please try again.",
-    "manualAdd": "Add Stock Manually",
-    "manualHint": "Buying a stock outside the auto recommendation? Fill in ticker, quantity, and price here, then Save.",
-    "addManual": "Add"
+    "autoAllocate": "Auto Allocation",
+    "autoAllocateHint": "Split the budget across stocks you already hold, based on the recommendation score.",
+    "manualAdd": "Add Manually",
+    "manualHint": "Buying a new stock outside your current portfolio? Fill in its ticker, quantity, and price yourself.",
+    "addManual": "Add",
+    "or": "OR",
+    "rowsToSave": "Will Be Saved"
   },
   "settings": {
     "title": "Settings",

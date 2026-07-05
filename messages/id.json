@@ -58,9 +58,13 @@
     "confirmDelete": "Hapus transaksi ini?",
     "noAllocation": "Belum ada alokasi. Tambahkan posisi awal terlebih dahulu.",
     "error": "Terjadi kesalahan. Coba lagi.",
-    "manualAdd": "Tambah Saham Manual",
-    "manualHint": "Saham di luar rekomendasi otomatis? Isi ticker, jumlah, dan harga di sini, lalu Simpan.",
-    "addManual": "Tambah"
+    "autoAllocate": "Alokasi Otomatis",
+    "autoAllocateHint": "Bagi budget ke saham yang sudah kamu pegang, berdasarkan skor rekomendasi.",
+    "manualAdd": "Tambah Manual",
+    "manualHint": "Saham baru di luar portfolio saat ini? Isi ticker, jumlah, dan harga sendiri.",
+    "addManual": "Tambah",
+    "or": "ATAU",
+    "rowsToSave": "Akan Disimpan"
   },
   "settings": {
     "title": "Pengaturan",
