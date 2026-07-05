@@ -3,8 +3,11 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  // Pooled (pgbouncer, port 6543) — dipakai runtime app.
+  url       = env("DATABASE_URL")
+  // Direct (port 5432) — dipakai Prisma Migrate, pgbouncer tidak mendukung DDL/prepared statements.
+  directUrl = env("DIRECT_URL")
 }
 
 model Sector {

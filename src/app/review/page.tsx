@@ -6,6 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import DecisionTabs from "@/components/DecisionTabs";
 
+// runReview() memanggil FMP + AI multi-provider sekuensial per saham (bisa
+// puluhan detik) — perlu batas lebih tinggi dari default Vercel agar tidak
+// terpotong di tengah proses. Diimbangi dengan Fluid Compute (limit 300s).
+export const maxDuration = 300;
+
 export default async function ReviewPage({
   searchParams,
 }: {
