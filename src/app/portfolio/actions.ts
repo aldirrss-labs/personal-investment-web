@@ -18,11 +18,16 @@ export async function previewDca(budgetUsd: number): Promise<DcaSuggestion[]> {
 }
 
 export async function confirmDca(
-  rows: Array<{ ticker: string; qty: number; price: number }>,
-  datetimeLocal: string,
+  rows: Array<{ ticker: string; qty: number; price: number; datetimeLocal: string }>,
 ): Promise<{ ok: true }> {
-  const date = parseWibDatetimeLocal(datetimeLocal);
-  const toSave = rows.filter((r) => r.qty > 0).map((r) => ({ ...r, date }));
+  const toSave = rows
+    .filter((r) => r.qty > 0)
+    .map((r) => ({
+      ticker: r.ticker,
+      qty: r.qty,
+      price: r.price,
+      date: parseWibDatetimeLocal(r.datetimeLocal),
+    }));
   await addTransactions(toSave);
   revalidatePath("/portfolio");
   revalidatePath("/");
