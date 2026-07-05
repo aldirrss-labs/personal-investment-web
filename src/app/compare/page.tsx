@@ -36,7 +36,7 @@ export default async function ComparePage() {
       <h1 className="text-2xl font-bold">{t("title")}</h1>
 
       {quarterCount >= 3 && (
-        <Card>
+        <Card className="border-l-4 border-l-violet-500">
           <CardHeader>
             <CardTitle>{t("trend")}</CardTitle>
           </CardHeader>
@@ -46,7 +46,7 @@ export default async function ComparePage() {
         </Card>
       )}
 
-      <Card>
+      <Card className="border-l-4 border-l-amber-500">
         <CardContent className="pt-6">
           <Table>
             <TableHeader>

@@ -24,7 +24,7 @@ export default async function RecommendationPage() {
           ))}
         </div>
       )}
-      <Card>
+      <Card className="border-l-4 border-l-blue-500">
         <CardHeader>
           <CardTitle>{t("allocation")}</CardTitle>
         </CardHeader>

@@ -18,7 +18,7 @@ export default async function StockCard({ params }: { params: { ticker: string }
       </h1>
       {!ai && <p className="text-amber-600">{t("aiUnavailable")}</p>}
       {ai && (
-        <Card className="max-w-2xl">
+        <Card className="max-w-2xl border-l-4 border-l-indigo-500">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               {ticker}
