@@ -1,8 +1,16 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { Sidebar, MobileSidebarDrawer } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { MobileNavProvider } from "./MobileNavContext";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  if (pathname === "/login") {
+    return <>{children}</>;
+  }
+
   return (
     <MobileNavProvider>
       <div className="flex min-h-screen">
